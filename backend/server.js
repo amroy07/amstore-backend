@@ -15,7 +15,6 @@ connectDB();
 
 const app = express();
 app.use(express.json()); // Request Body Parsing
-app.use(cors());
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
@@ -30,13 +29,13 @@ const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/backend/static')));
+  app.use(express.static(path.join(__dirname, '/frontend/build')));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'backend', 'static', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
   });
 } else {
-  app.get("/getData", (req, res) => {
+  app.get('/', (req, res) => {
     res.send('API is running');
   });
 }
